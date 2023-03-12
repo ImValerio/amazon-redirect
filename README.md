@@ -1,4 +1,4 @@
-Given a link to an amazon product, it returns the amazon url of the user's country of origin
+Given a link to an amazon product, it returns the amazon url of the user's country.
 
 ## Getting Started
 
