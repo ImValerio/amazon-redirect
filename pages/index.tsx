@@ -8,7 +8,7 @@ export default function Home() {
 
   const getASIN = (link:string)=>{
     if(!link.includes("amazon"))
-      return;
+      return null;
     
     const startASIN = link.split("dp/")[1];
     const endASIN = startASIN.indexOf("/")
@@ -19,7 +19,10 @@ export default function Home() {
   const createLink = (link:string)=>{
     const ASIN = getASIN(link);
 
-    setRedirectUrl(`https://www.amazon.${nationality.substring(0,2)}/dp/${ASIN}`)
+    if(!ASIN)
+      setRedirectUrl("Invalid url")
+    else
+      setRedirectUrl(`https://www.amazon.${nationality.substring(0,2)}/dp/${ASIN}`)
   }
 
   return (
