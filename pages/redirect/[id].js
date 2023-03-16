@@ -1,14 +1,17 @@
-import {useRouter} from 'next/router'
 import clientPromise from "../../lib/mongodb";
+import {useEffect} from "react"
 
-const Index = ({data}) => {
-    const router = useRouter();
-
-    const{id} = router.query
+const Index = ({redirectUrl}) => {
+  useEffect(() => {
+    if(redirectUrl)
+      window.location.href = "redirectUrl";
+    else
+      window.location.href = "/";
+  }, []);
 
   return (
     <div>
-        <h1>{JSON.stringify(data)}</h1>
+        <h1>{redirectUrl}</h1>
     </div>
   )
 }
@@ -18,12 +21,18 @@ export async function getServerSideProps(context) {
 
     const client = await clientPromise;
 
+    const {id} = context.query;
+    try{
     const db = client.db("test")
     
-    const redirectUrl = await db.collection("url-shortener").find({}).toArray()
-    console.log(redirectUrl)
-
-    return {props: {redirectUrl}};
+    const redirectUrl = await db.collection("url-shortener").find({id}).toArray()
+    const {url} = redirectUrl[0]
+    return {props: {redirectUrl: url}};
+    }
+    catch(e){
+      return {props: {redirectUrl: null}}
+    }
+   
 }
 
 export default Index;
