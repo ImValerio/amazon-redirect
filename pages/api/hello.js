@@ -13,4 +13,6 @@ export default async function handler(
 
   await db.collection("url-shortener").insertOne({id: 'test', url: 'test.it'})
 
+  
+
 }

@@ -1,5 +1,6 @@
 import clientPromise from "../../lib/mongodb";
 import {useEffect} from "react"
+import {createLink} from "../../lib/utils";
 
 const Index = ({redirectUrl}) => {
   useEffect(() => {
@@ -27,7 +28,7 @@ export async function getServerSideProps(context) {
     
     const redirectUrl = await db.collection("url-shortener").find({id}).toArray()
     const {url} = redirectUrl[0]
-    return {props: {redirectUrl: url}};
+    return {props: {redirectUrl: createLink(url)}};
     }
     catch(e){
       return {props: {redirectUrl: null}}
